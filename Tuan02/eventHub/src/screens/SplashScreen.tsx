@@ -1,30 +1,29 @@
-import { ImageBackground, ActivityIndicator } from 'react-native'
-import React from 'react'
-import { Image } from 'react-native-reanimated/lib/typescript/Animated'
-import { appInfo } from '../constants/appInfos'
-import { SpaceComponent } from '../components'
-import { appColors } from '../constants/appColors'
+import React from 'react';
+import { ActivityIndicator, Image, ImageBackground } from 'react-native';
+import { appColors } from '../constants/appColors';
+import { appInfo } from '../constants/appInfos';
+import { SpaceComponent } from '../components';
 
 const SplashScreen = () => {
   return (
     <ImageBackground
-        source={require('../assets/images/splash-img.png')}
+      source={require('../assets/img/splash-img.jpg')}
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+      imageStyle={{ flex: 1}}>
+      <Image
+        source={require('../assets/img/logo.png')}
         style={{
-            flex:1,
-            justifyContent: 'center',
-            alignItems: 'center',
+          width: appInfo.sizes.WIDTH * 0.7,
+          resizeMode: 'contain',
         }}
-        imageStyle={{flex:1}}>
-        <Image
-            source={require('../assets/images/logo.png')}
-            style={{
-                width: appInfo.sizes.WIDTH * 0.7,
-                resizeMode:'contain',
-            }}
         />
-        <SpaceComponent height={16}/>
-        <ActivityIndicator color={appColors.gray} size={22} />
-    </ImageBackground>
+      <SpaceComponent height={16} />
+      <ActivityIndicator color={appColors.gray} size={22} />
+      </ImageBackground>
   );
 };
 
