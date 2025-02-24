@@ -1,4 +1,4 @@
-import { Image, Switch } from 'react-native';
+import { Image } from 'react-native';
 import React,{useState, useEffect} from 'react';
 import {
   ButtonComponent,
@@ -15,22 +15,22 @@ import { Lock, Sms } from 'iconsax-react-native';
 import { Validate } from '../../utils/validate';
 
 
-const LoginScreen = ({navigation}: any) => {
+const RegisterScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setpassword] = useState('');
-  const [isRemember, setIsRemember] = useState(true);
+  const [repassword, setRepassword] = useState('');
   const [isDisable, setIsDisable] = useState(true);
 
   useEffect(() => {
     const emailValidation = Validate.email(email);
 
-    if(!email || !password || !emailValidation){
+    if(!email || !password || !emailValidation || repassword !== password){
       setIsDisable(true);
     }
     else{
       setIsDisable(false);
     }
-  },[email, password]);
+  },[email, password, repassword]);
   return (
     <ContainerComponent isImageBackground isScroll>
       <SectionComponent
@@ -49,58 +49,49 @@ const LoginScreen = ({navigation}: any) => {
           />
         </SectionComponent>
         <SectionComponent>
-          <TextComponent size={24} title text="Sign In"/>
+          <TextComponent size={24} title text="Register"/>
           <SpaceComponent height={21}/>
           <InputComponent
               value={email}
-              placeholder='Email'
+              placeholder="Email"
               onChange={val => setEmail(val)}
               allowClear
               affix={<Sms size={22} color={appColors.gray}/>}
           />
           <InputComponent
             value={password}
-            placeholder='Password'
+            placeholder="Password"
             onChange={val => setpassword(val)}
             isPassword
             allowClear
             affix={<Lock size={22} color={appColors.gray}/>}
           />
-          <RowComponent justify="space-between">
-            <RowComponent onPress={() => setIsRemember(!isRemember)}>
-              <Switch
-                trackColor={{true: appColors.primary}}
-                thumbColor={appColors.white}
-                value={isRemember}
-                onChange={() => setIsRemember(!isRemember)}
-              />
-              <SpaceComponent width={4}/>
-              <TextComponent text="Remember me"/>
-            </RowComponent>
-            <ButtonComponent
-              text="Forgot Password?"
-              onPress={() => navigation.navigate('ForgotPassword')}
-              type="text"
-            />
-          </RowComponent>
+          <InputComponent
+            value={repassword}
+            placeholder="Repeat Password"
+            onChange={val => setRepassword(val)}
+            isPassword
+            allowClear
+            affix={<Lock size={22} color={appColors.gray}/>}
+          />
         </SectionComponent>
         <SpaceComponent height={16}/>
         <SectionComponent>
           <ButtonComponent
             disable={isDisable}
             //onPress={handelLogin}
-            text="Sign In"
+            text="Register"
             type="primary"
           />
         </SectionComponent>
         <SocialLogin/>
         <SectionComponent>
           <RowComponent justify="center">
-            <TextComponent text="Dont have an account? "/>
+            <TextComponent text="Already have an account? "/>
             <ButtonComponent
               type="link"
-              text="Sign Up"
-              onPress={() => navigation.navigate('RegisterScreen')}
+              text="Sign in"
+              onPress={() => navigation.navigate('LoginScreen')}
             />
           </RowComponent>
         </SectionComponent>
@@ -108,4 +99,4 @@ const LoginScreen = ({navigation}: any) => {
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;
