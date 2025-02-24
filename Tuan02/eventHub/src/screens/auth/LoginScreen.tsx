@@ -1,5 +1,5 @@
 import { Image, Switch } from 'react-native';
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import {
   ButtonComponent,
   ContainerComponent,
@@ -9,15 +9,28 @@ import {
   SpaceComponent,
   TextComponent,
 } from '../../components';
+import SocialLogin from './components/SocialLogin';
 import { appColors } from '../../constants/appColors';
 import { Lock, Sms } from 'iconsax-react-native';
+import { Validate } from '../../utils/validate';
 
 
 const LoginScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setpassword] = useState('');
   const [isRemember, setIsRemember] = useState(true);
-  const [isDisable,] = useState(true);
+  const [isDisable, setIsDisable] = useState(true);
+
+  useEffect(() => {
+    const emailValidation = Validate.email(email);
+
+    if(!email || !password || !emailValidation){
+      setIsDisable(true);
+    }
+    else{
+      setIsDisable(false);
+    }
+  },[email, password]);
   return (
     <ContainerComponent isImageBackground isScroll>
       <SectionComponent
@@ -80,10 +93,10 @@ const LoginScreen = ({navigation}: any) => {
             type="primary"
           />
         </SectionComponent>
-        {/* <SocialLogin/> */}
+        <SocialLogin/>
         <SectionComponent>
           <RowComponent justify="center">
-            <TextComponent text="Dont have an account?"/>
+            <TextComponent text="Dont have an account? "/>
             <ButtonComponent
               type="link"
               text="Sign Up"
